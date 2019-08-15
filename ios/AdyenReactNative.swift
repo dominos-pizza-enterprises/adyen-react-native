@@ -33,7 +33,7 @@ class AdyenReactNative: RCTEventEmitter {
 extension AdyenReactNative: CheckoutControllerDelegate {
 
     struct Appearance {
-        static let backgroundColor = UIColor("pink")
+        static let backgroundColor = UIColor(named: "Pink")
     }
     
     @objc func startPayment() {
