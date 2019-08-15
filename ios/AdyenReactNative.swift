@@ -22,13 +22,13 @@ class AdyenReactNative: RCTEventEmitter {
         ]
     }
 }
-
-extension AdyenReactNative: CardScanDelegate {
-    
-    func isCardScanEnabled(for paymentMethod: PaymentMethod) -> Bool {
-        return true
-    }
-}
+//
+//extension AdyenReactNative: CardScanDelegate {
+//    
+//    func isCardScanEnabled(for paymentMethod: PaymentMethod) -> Bool {
+//        return true
+//    }
+//}
 
 extension AdyenReactNative: CheckoutControllerDelegate {
 
