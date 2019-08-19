@@ -32,12 +32,14 @@ class AdyenReactNative: RCTEventEmitter {
 
 extension AdyenReactNative: CheckoutControllerDelegate {
 
-    struct Appearance {
-        static let backgroundColor = UIColor(named: "Pink")
-    }
-    
     @objc func startPayment() {
-        checkoutController = CheckoutController(presentingViewController: (UIApplication.shared.delegate?.window??.rootViewController)!, delegate: self)
+        var appearance: Appearance = {
+            var appearance = Appearance()
+            appearance.backgroundColor = UIColor(red: 0.5,green: 0.5, blue:0.5, alpha: 1 )
+            appearance.tintColor = #colorLiteral(red: 0.4107530117, green: 0.8106812239, blue: 0.7224243283, alpha: 1)
+            return appearance
+        }()
+        checkoutController = CheckoutController(presentingViewController: (UIApplication.shared.delegate?.window??.rootViewController)!, delegate: self, appearance: appearance)
         checkoutController!.start()
     }
     
