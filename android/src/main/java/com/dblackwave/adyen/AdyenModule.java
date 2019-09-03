@@ -45,6 +45,8 @@ public class AdyenModule extends ReactContextBaseJavaModule implements ActivityE
 
     private Callback mPaymentException;
 
+    CheckoutSetupParametersHandler handler;
+
     private static final int REQUEST_CODE_CHECKOUT = 1;
 
     public AdyenModule(ReactApplicationContext context) {
@@ -60,18 +62,32 @@ public class AdyenModule extends ReactContextBaseJavaModule implements ActivityE
     @ReactMethod
     public void cancelPayment() {
 
+        getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                CheckoutException except = new CheckoutException.Builder("CANCELLED", null).build();
+
+                handler.onError(except);
+            }
+        });
+
     }
+
+
 
     @ReactMethod
     public void startPayment() {
-        CheckoutController.startPayment(getCurrentActivity(), new CheckoutSetupParametersHandler() {
+
+        handler = new CheckoutSetupParametersHandler() {
             @Override
             public void onRequestPaymentSession(@NonNull CheckoutSetupParameters checkoutSetupParameters) {
+
                 Log.d("Debug", "Request payment session");
                 WritableMap params = Arguments.createMap();
                 params.putString("token", checkoutSetupParameters.getSdkToken());
                 params.putString("returnUrl", checkoutSetupParameters.getReturnUrl());
                 sendEvent(getReactApplicationContext(), "onRequestPaymentSession", params);
+
             }
 
             @Override
@@ -82,7 +98,10 @@ public class AdyenModule extends ReactContextBaseJavaModule implements ActivityE
                 sendEvent(getReactApplicationContext(), "onError", params);
                 Log.d("Debug", error.getMessage());
             }
-        });
+
+        };
+
+        CheckoutController.startPayment(getCurrentActivity(), handler);
     }
 
     @ReactMethod
@@ -198,7 +217,11 @@ public class AdyenModule extends ReactContextBaseJavaModule implements ActivityE
                 CheckoutException checkoutException = PaymentMethodHandler.Util.getCheckoutException(data);
                 WritableMap params = Arguments.createMap();
                 PaymentResult paymentResult = PaymentMethodHandler.Util.getPaymentResult(data);
-                params.putString("code", paymentResult.getResultCode().toString());
+                if(paymentResult != null) {
+                    params.putString("code", paymentResult.getResultCode().toString());
+                } else {
+                    params.putString("code", "CANCELLED");
+                }
                 params.putString("message", "exception");
                 this.sendEvent(getReactApplicationContext(), "onError", params);
             }

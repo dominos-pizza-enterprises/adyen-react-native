@@ -33,7 +33,7 @@ allprojects {
     }
 }
 
-final checkoutVersion = "2.4.5"
+final checkoutVersion = "2.4.8"
 dependencies {
     implementation 'com.facebook.react:react-native:+'
     implementation "android.arch.lifecycle:extensions:${rootProject.ext.lifecycleVersion}"
