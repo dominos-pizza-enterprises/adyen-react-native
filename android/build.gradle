@@ -38,9 +38,9 @@ final checkoutVersion = "2.4.8"
 dependencies {
     implementation 'com.facebook.react:react-native:+'
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation "android.arch.lifecycle:extensions:${rootProject.ext.lifecycleVersion}"
-    implementation "android.arch.core:runtime:${rootProject.ext.lifecycleVersion}"
-    implementation "android.arch.lifecycle:viewmodel:${rootProject.ext.lifecycleVersion}"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation "androidx.arch.core:core-runtime:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0"
     implementation "com.adyen.checkout:ui:${checkoutVersion}"
     implementation "com.adyen.checkout:core:${checkoutVersion}"
     implementation "com.adyen.checkout:core-card:${checkoutVersion}" // Optional; Required for processing card payments.
